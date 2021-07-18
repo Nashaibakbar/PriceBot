@@ -1,8 +1,0 @@
-RPC_URL="https://ropsten.infura.io/v3/YOUR_API_KEY"
-PRIVATE_KEY="0x..."
-ACCOUNT="0x..."
-DB_HOST="localhost"
-DB_PORT="5432"
-DB_NAME="pricebot"
-DB_USERNAME="postgres"
-DB_PASSWORD="aasim"
