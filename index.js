@@ -110,11 +110,12 @@ async function monitorPrice() {
   }
 
   console.log("Checking prices...")
-  const  pairsnexhange= await db.query('select e.id AS "dexid",p.id AS "pairid", e.name,e.routeraddress,p.inputtokensymbol,p.inputtokendecimals,p.inputtokenaddress,p.outputtokensymbol,p.outputtokendecimals,p.outputtokenaddress,p.pairaddress from pairs p inner join exchanges e on p.exchangeid=e.id where e.isactive=true');
+  const  pairsnexhange= await db.query('select e.id AS "dexid",p.id AS "pairid", e.name,e.routeraddress,p.inputtokensymbol,p.inputtokendecimals,p.inputtokenaddress,p.outputtokensymbol,p.outputtokendecimals,p.outputtokenaddress,p.pairaddress,inputamount from pairs p inner join exchanges e on p.exchangeid=e.id where e.isactive=true');
   monitoringPrice = true
 
   try {
 pairsnexhange?.map((data) => {
+  const {amount,token}=data.inputamount
     checkPair({
       pairId:data.pairid,
       inputTokenSymbol: data.inputtokensymbol,
@@ -124,8 +125,7 @@ pairsnexhange?.map((data) => {
       outputTokenDecimals: data.outputtokendecimals,
       outputTokenAddress: data.outputtokenaddress,
       pairAddress: data.pairaddress,
-      inputAmount: web3.utils.toWei('1', 'ETHER'),
-    },
+      inputAmount: web3.utils.toWei(String(amount),String(token)), },
       {
         dexId: data.dexid,
         dexName: data.name,
