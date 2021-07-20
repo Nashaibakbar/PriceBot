@@ -6,4 +6,6 @@
 
 -- create tables from below by executing script.sql in sql editor.
 
+-- Insert exchanges & Pairs data in database tables
+
 -- then run node index.js
