@@ -1,219 +1,173 @@
-
-const db = require("./db");
+const db = require('./db')
 require('dotenv').config()
-const express = require('express')
-const bodyParser = require('body-parser')
-const http = require('http')
 const Web3 = require('web3')
-const HDWalletProvider = require('@truffle/hdwallet-provider')
-const moment = require('moment-timezone')
-const numeral = require('numeral')
+const moment = require('moment')
 const _ = require('lodash')
-const axios = require('axios')
-const { pairABI,dexRouterABI} = require('./utils');
 
-// SERVER CONFIG
-const PORT = process.env.PORT || 5000
-const app = express();
-const server = http.createServer(app).listen(PORT, () => console.log(`Listening on ${ PORT }`))
+const {
+  pairABI,
+  dexRouterABI
+} = require('./utils')
 
 // WEB3 CONFIG
 let web3 = new Web3(process.env.RPC_URL)
 
-async function checkPair(args,exchange) {
-<<<<<<< HEAD
-  const { inputTokenSymbol,inputTokenDecimals, inputTokenAddress, outputTokenSymbol,outputTokenDecimals, outputTokenAddress,pairAddress,inputAmount } = args
-  const {dexName,dexRouterAddress} = exchange;
-    
-    let pairReserves0; 
-=======
-  const {pairId, inputTokenSymbol,inputTokenDecimals, inputTokenAddress, outputTokenSymbol,outputTokenDecimals, outputTokenAddress,pairAddress,inputAmount } = args
-  const {dexId,dexName,dexRouterAddress} = exchange;
+// Display output
+let TABLE_OUTPUT = []
 
-  let pairReserves0; 
->>>>>>> aasim_branch
-    let pairReserves1;
-    let dexRouterContract;
-    let pairContract;
-    let pairReserves;
+async function checkPair(args, exchange, datetime) {
+  const {
+    pairId,
+    inputTokenSymbol,
+    inputTokenDecimals,
+    inputTokenAddress,
+    outputTokenSymbol,
+    outputTokenDecimals,
+    outputTokenAddress,
+    pairAddress,
+    inputAmount
+  } = args
+  const {
+    dexId,
+    dexName,
+    dexRouterAddress
+  } = exchange
 
+  let pairReserves0
+  let pairReserves1
+  let dexRouterContract
+  let pairContract
+  let pairReserves
 
-    // Exhange init 
-<<<<<<< HEAD
-    if(dexName == "PancakeSwap" || dexName == "pancakeswap"){
-      // Binance Smart Chain RPC Chain
-      const NODE_URL = "https://speedy-nodes-nyc.moralis.io/bb5205b84accc06e25cb64ca/bsc/mainnet";
-=======
-    if(dexName.toLowerCase() === "pancakeswap"){
-      // Binance Smart Chain RPC Chain
-      const NODE_URL = process.env.NODE_URL;
->>>>>>> aasim_branch
-      const provider = new Web3.providers.HttpProvider(NODE_URL);
-      web3 = new Web3(provider);
-      dexRouterContract  = new web3.eth.Contract(JSON.parse(dexRouterABI),dexRouterAddress);
-      pairContract = new web3.eth.Contract(JSON.parse(pairABI),pairAddress);
-      pairReserves = await pairContract.methods.getReserves().call();
-    }
-    else
-    {
-      web3 = new Web3(process.env.RPC_URL);
-     dexRouterContract  = new web3.eth.Contract(JSON.parse(dexRouterABI),dexRouterAddress);
-     pairContract = new web3.eth.Contract(JSON.parse(pairABI),pairAddress);
-     pairReserves = await pairContract.methods.getReserves().call();
-    }
-   
-  
+  // Exhange init
+  web3 = new Web3(process.env.RPC_URL)
+  dexRouterContract = new web3.eth.Contract(JSON.parse(dexRouterABI), dexRouterAddress)
+  pairContract = new web3.eth.Contract(JSON.parse(pairABI), pairAddress)
+  pairReserves = await pairContract.methods.getReserves().call()
 
-    if(inputTokenDecimals == 18 && outputTokenDecimals == 18){
-     pairReserves0 = pairReserves._reserve0;
-     pairReserves1 = pairReserves._reserve1;
-    } 
-    else if (inputTokenSymbol == "USDC" || outputTokenSymbol == "USDC"){
-      // USDC On EtherScan Have 6 Decimals
-      pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
-      pairReserves1 = pairReserves._reserve1;
-    }
-    else if (inputTokenSymbol == "USDT" || outputTokenSymbol == "USDT"){
-      // USDT On EtherScan Have 6 Decimals
-      pairReserves0 = pairReserves._reserve0;
-      pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
-    }
-    else if (inputTokenSymbol == "WBTC" || outputTokenSymbol == "WBTC"){
-      pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 10000000000)).toString();
-      pairReserves1 = pairReserves._reserve1;
-    }
-    
-    const getPairPriceO = await dexRouterContract.methods.getAmountOut(inputAmount,pairReserves1,pairReserves0).call();
-    const getPairPrice1 = await dexRouterContract.methods.getAmountOut(inputAmount,pairReserves0,pairReserves1).call();
-   
-    ++i;
-    console.table([{
-      'No:': i,
-      'Exchange': dexName,
-      'Input Token': inputTokenSymbol,
-      'Output Token': outputTokenSymbol,
-      'Input Amount': web3.utils.fromWei(inputAmount, 'Ether'),
-      'Price': web3.utils.fromWei(getPairPriceO, 'Ether'),
-      'Timestamp': moment().tz('America/Chicago').format(),
-    }])
-    db.query(`insert into prices (exchangeid,pairid,price,timestamp) values (${dexId}, ${pairId},${web3.utils.fromWei(getPairPriceO, 'Ether')},'${moment().tz('America/Chicago').format()}')`);
-
-    ++i;
-    console.table([{
-      'No:': i,
-      'Exchange': dexName,
-      'Input Token': outputTokenSymbol,
-      'Output Token': inputTokenSymbol,
-      'Input Amount': web3.utils.fromWei(inputAmount, 'Ether'),
-      'Price': web3.utils.fromWei(getPairPrice1, 'Ether'),
-      'Timestamp': moment().tz('America/Chicago').format(),
-    }])
-    db.query(`insert into prices (exchangeid,pairid,price,timestamp) values (${dexId}, ${pairId},${web3.utils.fromWei(getPairPrice1, 'Ether')},'${moment().tz('America/Chicago').format()}')`);
+  // Binance Smart Chain RPC Chain
+  if (dexName === 'pancakeSwap') {
+    const NODE_URL = process.env.NODE_URL
+    const provider = new Web3.providers.HttpProvider(NODE_URL)
+    web3 = new Web3(provider)
+    dexRouterContract = new web3.eth.Contract(JSON.parse(dexRouterABI), dexRouterAddress)
+    pairContract = new web3.eth.Contract(JSON.parse(pairABI), pairAddress)
+    pairReserves = await pairContract.methods.getReserves().call()
   }
 
+  if (inputTokenDecimals == 18 && outputTokenDecimals == 18) {
+    pairReserves0 = pairReserves._reserve0
+    pairReserves1 = pairReserves._reserve1
+  }
+  else if (inputTokenSymbol == 'USDC' || outputTokenSymbol == 'USDC') {
+    // USDC On EtherScan Have 6 Decimals
+    pairReserves0 = (BigInt(Number(pairReserves._reserve0) * 1000000000000)).toString()
+    pairReserves1 = pairReserves._reserve1
+  }
+  else if (inputTokenSymbol == 'USDT' || outputTokenSymbol == 'USDT') {
+    // USDT On EtherScan Have 6 Decimals
+    pairReserves0 = pairReserves._reserve0
+    pairReserves1 = (BigInt(Number(pairReserves._reserve1) * 1000000000000)).toString()
+  }
+  else if (inputTokenSymbol == 'WBTC' || outputTokenSymbol == 'WBTC') {
+    pairReserves0 = (BigInt(Number(pairReserves._reserve0) * 10000000000)).toString()
+    pairReserves1 = pairReserves._reserve1
+  }
+
+  const getPairRateO = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves1, pairReserves0).call()
+  const getPairRate1 = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves0, pairReserves1).call()
+
+  let directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
+  let directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
+
+  let sql = `
+    -- insert getPairRateO
+    INSERT INTO RATES (exchange_id, pair_id, direction, rate, datetime) VALUES (${dexId}, ${pairId}, '${directionOne}', ${web3.utils.fromWei(getPairRateO, 'Ether')}, '${datetime}');
+
+    -- insert getPairRate1
+    INSERT INTO RATES (exchange_id, pair_id, direction, rate, datetime) VALUES (${dexId}, ${pairId}, '${directionTwo}', ${web3.utils.fromWei(getPairRate1, 'Ether')}, '${datetime}');
+  `
+  db.query(sql)
+
+  // Output our data to the TABLE_OUTPUT
+  TABLE_OUTPUT.push(
+    {
+      'exchange': dexName,
+      'direction': directionOne,
+      'inputAmount': web3.utils.fromWei(inputAmount, 'Ether'),
+      'rate': web3.utils.fromWei(getPairRate1, 'Ether'),
+      'datetime': datetime,
+    },
+    {
+      'exchange': dexName,
+      'direction': directionTwo,
+      'inputAmount': web3.utils.fromWei(inputAmount, 'Ether'),
+      'rate': web3.utils.fromWei(getPairRateO, 'Ether'),
+      'datetime': datetime,
+    }
+  )
+}
 
 let priceMonitor
 let monitoringPrice = false
-let i =0;
-
+let datetime = moment().utc().format()
 
 async function monitorPrice() {
-  if(monitoringPrice) {
+  if (monitoringPrice) {
     return
   }
 
-  console.log("Checking prices...")
-  const  pairsnexhange= await db.query('select e.id AS "dexid",p.id AS "pairid", e.name,e.routeraddress,p.inputtokensymbol,p.inputtokendecimals,p.inputtokenaddress,p.outputtokensymbol,p.outputtokendecimals,p.outputtokenaddress,p.pairaddress,inputamount from pairs p inner join exchanges e on p.exchangeid=e.id where e.isactive=true');
+  let sql = `
+    SELECT
+      e.id AS dexid,
+      p.id AS pair_id,
+      e.name,
+      e.router_address,
+      p.input_token_symbol,
+      p.input_token_decimals,
+      p.input_token_address,
+      p.output_token_symbol,
+      p.output_token_decimals,
+      p.output_token_address,
+      p.pair_address,
+      input_amount
+    FROM
+      pairs p
+    INNER JOIN exchanges e on p.exchange_id = e.id where e.is_active = true;
+  `
+
+  const pairsExchange = await db.query(sql)
   monitoringPrice = true
+  datetime = moment().utc().format()
 
   try {
-<<<<<<< HEAD
+    // Iterate over our pairs and fetch
+    pairsExchange?.map((data) => {
+      const {
+        amount,
+        token
+      } = data.input_amount
 
-    // BNB/BUSD
-    await checkPair({
-      inputTokenSymbol: 'BNB',
-      inputTokenDecimals: 18,
-      inputTokenAddress: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-      outputTokenSymbol: 'BUSD',
-      outputTokenDecimals: 18,
-      outputTokenAddress: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-      pairAddress: '0x1B96B92314C44b159149f7E0303511fB2Fc4774f',
-      inputAmount: web3.utils.toWei('1', 'ETHER'),
-    },
-    {
-      dexName: 'PancakeSwap',
-      dexRouterAddress: '0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F',
-    })    
-    
-
-    // 1. ETH-DAI Pair
-    await checkPair({
-      inputTokenSymbol: 'ETH',
-      inputTokenDecimals: 18,
-      inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-      outputTokenSymbol: 'DAI',
-      outputTokenDecimals: 18,
-      outputTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      pairAddress: '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11',
-      inputAmount: web3.utils.toWei('1', 'ETHER'), }
-    ,{
-      dexName: 'UniSwap',
-      dexRouterAddress: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
-     })
-
-    await checkPair({
-      inputTokenSymbol: 'ETH',
-      inputTokenDecimals: 18,
-      inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-      outputTokenSymbol: 'DAI',
-      outputTokenDecimals: 18,
-      outputTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      pairAddress: '0xC3D03e4F041Fd4cD388c549Ee2A29a9E5075882f',
-      inputAmount: web3.utils.toWei('1', 'ETHER'),
-     
-    }
-    ,{
-      dexName: 'SushiSwap',
-      dexRouterAddress: '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F',
-      })
-
-   //  3.ETH-USDT Pair
-    await checkPair({
-      inputTokenSymbol: 'ETH',
-      inputTokenDecimals: 18,
-      inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-      outputTokenSymbol: 'USDT',
-      inputTokenDecimals: 6,
-      outputTokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-      pairAddress: '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852',
-      inputAmount: web3.utils.toWei('1', 'ETHER'),
-     
-    },{
-      dexName: 'UniSwap',
-      dexRouterAddress: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+      checkPair(
+        {
+          pairId: data.pair_id,
+          inputTokenSymbol: data.input_token_symbol,
+          inputTokenDecimals: data.input_token_decimals,
+          inputTokenAddress: data.input_token_address,
+          outputTokenSymbol: data.output_token_symbol,
+          outputTokenDecimals: data.output_token_decimals,
+          outputTokenAddress: data.output_token_address,
+          pairAddress: data.pair_address,
+          inputAmount: web3.utils.toWei(String(amount), String(token)),
+        },
+        {
+          dexId: data.dexid,
+          dexName: data.name,
+          dexRouterAddress: data.router_address,
+        },
+        datetime
+      )
     })
-=======
-pairsnexhange?.map((data) => {
-  const {amount,token}=data.inputamount
-    checkPair({
-      pairId:data.pairid,
-      inputTokenSymbol: data.inputtokensymbol,
-      inputTokenDecimals: data.inputtokendecimals,
-      inputTokenAddress: data.inputtokenaddress,
-      outputTokenSymbol: data.outputtokensymbol,
-      outputTokenDecimals: data.outputtokendecimals,
-      outputTokenAddress: data.outputtokenaddress,
-      pairAddress: data.pairaddress,
-      inputAmount: web3.utils.toWei(String(amount),String(token)), },
-      {
-        dexId: data.dexid,
-        dexName: data.name,
-        dexRouterAddress: data.routeraddress,
-      })})  
-
-
->>>>>>> aasim_branch
-
   } catch (error) {
     console.error(error)
     monitoringPrice = false
@@ -221,14 +175,28 @@ pairsnexhange?.map((data) => {
     returns
   }
 
+  // Lets keep our prices table light, lets delete any old prices older than N minutes
+  const minutesAgo = moment().utc().subtract(1, 'minutes')
+  sql = `DELETE FROM RATES WHERE datetime < '${minutesAgo.format()}';`
+  db.query(sql)
+
+  // Make sure the exchange/input_token is always in the same order
+  TABLE_OUTPUT = _.orderBy(TABLE_OUTPUT, ['exchange'], ['inputToken'])
+
+  // I think we are delayed here one by iteration due to checkPair being an aysnc function
+  // Console table out our TABLE_OUTPUT and then reset it
+  console.log(`${datetime}`)
+  console.table(TABLE_OUTPUT)
+
+  // Clear out the TABLE_OUTPUT
+  TABLE_OUTPUT = []
+
+  // Set to false
   monitoringPrice = false
-  i=0;
 }
 
 // Check markets every n seconds
-const POLLING_INTERVAL = process.env.POLLING_INTERVAL || 10000 // 3 Seconds
-<<<<<<< HEAD
-priceMonitor = setInterval(async () => { await monitorPrice() }, POLLING_INTERVAL)
-=======
-priceMonitor = setInterval(async () => { await monitorPrice() }, POLLING_INTERVAL)
->>>>>>> aasim_branch
+const POLLING_INTERVAL = process.env.POLLING_INTERVAL || 15000 // 15 Seconds
+priceMonitor = setInterval(async () => {
+  await monitorPrice()
+}, POLLING_INTERVAL)
