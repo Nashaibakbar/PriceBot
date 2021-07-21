@@ -1,3 +1,5 @@
+
+const db = require("./db");
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -19,10 +21,17 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 let web3 = new Web3(process.env.RPC_URL)
 
 async function checkPair(args,exchange) {
+<<<<<<< HEAD
   const { inputTokenSymbol,inputTokenDecimals, inputTokenAddress, outputTokenSymbol,outputTokenDecimals, outputTokenAddress,pairAddress,inputAmount } = args
   const {dexName,dexRouterAddress} = exchange;
     
     let pairReserves0; 
+=======
+  const {pairId, inputTokenSymbol,inputTokenDecimals, inputTokenAddress, outputTokenSymbol,outputTokenDecimals, outputTokenAddress,pairAddress,inputAmount } = args
+  const {dexId,dexName,dexRouterAddress} = exchange;
+
+  let pairReserves0; 
+>>>>>>> aasim_branch
     let pairReserves1;
     let dexRouterContract;
     let pairContract;
@@ -30,9 +39,15 @@ async function checkPair(args,exchange) {
 
 
     // Exhange init 
+<<<<<<< HEAD
     if(dexName == "PancakeSwap" || dexName == "pancakeswap"){
       // Binance Smart Chain RPC Chain
       const NODE_URL = "https://speedy-nodes-nyc.moralis.io/bb5205b84accc06e25cb64ca/bsc/mainnet";
+=======
+    if(dexName.toLowerCase() === "pancakeswap"){
+      // Binance Smart Chain RPC Chain
+      const NODE_URL = process.env.NODE_URL;
+>>>>>>> aasim_branch
       const provider = new Web3.providers.HttpProvider(NODE_URL);
       web3 = new Web3(provider);
       dexRouterContract  = new web3.eth.Contract(JSON.parse(dexRouterABI),dexRouterAddress);
@@ -81,7 +96,8 @@ async function checkPair(args,exchange) {
       'Price': web3.utils.fromWei(getPairPriceO, 'Ether'),
       'Timestamp': moment().tz('America/Chicago').format(),
     }])
-  
+    db.query(`insert into prices (exchangeid,pairid,price,timestamp) values (${dexId}, ${pairId},${web3.utils.fromWei(getPairPriceO, 'Ether')},'${moment().tz('America/Chicago').format()}')`);
+
     ++i;
     console.table([{
       'No:': i,
@@ -92,6 +108,7 @@ async function checkPair(args,exchange) {
       'Price': web3.utils.fromWei(getPairPrice1, 'Ether'),
       'Timestamp': moment().tz('America/Chicago').format(),
     }])
+    db.query(`insert into prices (exchangeid,pairid,price,timestamp) values (${dexId}, ${pairId},${web3.utils.fromWei(getPairPrice1, 'Ether')},'${moment().tz('America/Chicago').format()}')`);
   }
 
 
@@ -106,9 +123,11 @@ async function monitorPrice() {
   }
 
   console.log("Checking prices...")
+  const  pairsnexhange= await db.query('select e.id AS "dexid",p.id AS "pairid", e.name,e.routeraddress,p.inputtokensymbol,p.inputtokendecimals,p.inputtokenaddress,p.outputtokensymbol,p.outputtokendecimals,p.outputtokenaddress,p.pairaddress,inputamount from pairs p inner join exchanges e on p.exchangeid=e.id where e.isactive=true');
   monitoringPrice = true
 
   try {
+<<<<<<< HEAD
 
     // BNB/BUSD
     await checkPair({
@@ -173,6 +192,27 @@ async function monitorPrice() {
       dexName: 'UniSwap',
       dexRouterAddress: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
     })
+=======
+pairsnexhange?.map((data) => {
+  const {amount,token}=data.inputamount
+    checkPair({
+      pairId:data.pairid,
+      inputTokenSymbol: data.inputtokensymbol,
+      inputTokenDecimals: data.inputtokendecimals,
+      inputTokenAddress: data.inputtokenaddress,
+      outputTokenSymbol: data.outputtokensymbol,
+      outputTokenDecimals: data.outputtokendecimals,
+      outputTokenAddress: data.outputtokenaddress,
+      pairAddress: data.pairaddress,
+      inputAmount: web3.utils.toWei(String(amount),String(token)), },
+      {
+        dexId: data.dexid,
+        dexName: data.name,
+        dexRouterAddress: data.routeraddress,
+      })})  
+
+
+>>>>>>> aasim_branch
 
   } catch (error) {
     console.error(error)
@@ -187,4 +227,8 @@ async function monitorPrice() {
 
 // Check markets every n seconds
 const POLLING_INTERVAL = process.env.POLLING_INTERVAL || 10000 // 3 Seconds
+<<<<<<< HEAD
 priceMonitor = setInterval(async () => { await monitorPrice() }, POLLING_INTERVAL)
+=======
+priceMonitor = setInterval(async () => { await monitorPrice() }, POLLING_INTERVAL)
+>>>>>>> aasim_branch
