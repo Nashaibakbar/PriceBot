@@ -187,7 +187,7 @@ async function monitorPrice() {
   // Lets keep our prices table light, lets delete any old prices older than N minutes
   const minutesAgo = moment().utc().subtract(1, 'minutes')
   sql = `DELETE FROM RATES WHERE datetime < '${minutesAgo.format()}';`
-  db.query(sql)
+  // db.query(sql)
 
   // Make sure the exchange/input_token is always in the same order
   TABLE_OUTPUT = _.orderBy(TABLE_OUTPUT, ['exchange'], ['inputToken'])
