@@ -1,11 +1,11 @@
-  // 1. ETH-USDC Uniswap Pair
+  // 1. USDC-ETH Uniswap Pair updated
   {
-      inputTokenSymbol: 'ETH',
-      inputTokenDecimals: 18 ,
-      inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-      outputTokenSymbol: 'USDC',
-      outputTokenDecimals: 6,
-      outputTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      inputTokenSymbol: 'USDC',
+      inputTokenDecimals: 6 ,
+      inputTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      outputTokenSymbol: 'ETH',
+      outputTokenDecimals: 18,
+      outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
       pairAddress: '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc',
       inputAmount: 1000000000000000000,
   }
@@ -35,6 +35,7 @@
       inputAmount: 1000000000000000000,
     }
 
+
     // 4.AVVE-ETH Uniswap Pair
    {
       inputTokenSymbol: 'ETH',
@@ -48,17 +49,16 @@
   
     }
 
-  // 5.WBTC-WETH Uniswap Pair
+  // 5.WBTC-WETH Uniswap Pair updated
   {
-    inputTokenSymbol: 'WETH',
-    inputTokenDecimals: 18 ,
-    inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    outputTokenSymbol: 'WBTC',
-    outputTokenDecimals: 8,
-    outputTokenAddress: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+    inputTokenSymbol: 'WBTC',
+    inputTokenDecimals: 8 ,
+    inputTokenAddress: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+    outputTokenSymbol: 'ETH',
+    outputTokenDecimals: 18,
+    outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
     pairAddress: '0xbb2b8038a1640196fbe3e38816f3e67cba72d940',
     inputAmount: 1000000000000000000,
-
   }
 
   // 6.MATIC-ETH Uniswap Pair
