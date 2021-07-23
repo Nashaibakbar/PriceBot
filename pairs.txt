@@ -36,12 +36,12 @@
   }
 
 
-  // 4.AVVE-ETH Uniswap Pair
+  // 4.AAVE-ETH Uniswap Pair
  {
     inputTokenSymbol: 'ETH',
     inputTokenDecimals: 18 ,
     inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    outputTokenSymbol: 'AVVE',
+    outputTokenSymbol: 'AAVE',
     outputTokenDecimals: 18,
     outputTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
     pairAddress: '0xdfc14d2af169b0d36c4eff567ada9b2e0cae044f',
@@ -231,12 +231,12 @@ pairAddress: '0xDafd66636E2561b0284EDdE37e42d192F2844D40',
 inputAmount: 1000000000000000000,
 }
 
-// 4.AVVE-ETH SushiSwap Pair
+// 4.AAVE-ETH SushiSwap Pair
 {
 inputTokenSymbol: 'ETH',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-outputTokenSymbol: 'AVVE',
+outputTokenSymbol: 'AAVE',
 outputTokenDecimals: 18,
 outputTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
 pairAddress: '0xD75EA151a61d06868E31F8988D28DFE5E9df57B4',
