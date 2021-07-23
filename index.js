@@ -86,8 +86,8 @@ async function checkPair(args, exchange, datetime) {
   const getPairRateO = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves1, pairReserves0).call()
   const getPairRate1 = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves0, pairReserves1).call()
 
-  let directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
-  let directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
+  let directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
+  let directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
 
   let sql = `
     -- insert getPairRateO
