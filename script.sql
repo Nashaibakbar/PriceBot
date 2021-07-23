@@ -59,14 +59,14 @@ VALUES
   (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'SHIB', 18, '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce', '0x24D3dD4a62e29770cf98810b09F89D3A90279E7a', '{"amount":1,"token":"ETHER"}'),
   (1, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'UNI', 18, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984', '0xd3d2e2692501a5c9ca623199d38826e513033a17', '{"amount":1,"token":"ETHER"}'),
   (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'UNI', 18, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984', '0xDafd66636E2561b0284EDdE37e42d192F2844D40', '{"amount":1,"token":"ETHER"}'),
-  (1, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'USDC', 6, '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc', '{"amount":1,"token":"ETHER"}'),
+  (1, 'USDC', 6,	'0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', 'ETH', 18, '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc', '{"amount":1,"token":"ETHER"}'),
   (1, 'DAI', 18,	'0x6b175474e89094c44da98b954eedeac495271d0f', 'USDC', 6, '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', '0xAE461cA67B15dc8dc81CE7615e0320dA1A9aB8D5', '{"amount":1,"token":"ETHER"}'),
-  (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'USDC', 6, '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', '0x397FF1542f962076d0BFE58eA045FfA2d347ACa0', '{"amount":1,"token":"ETHER"}'),
+  (1, 'USDC', 6,	'0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', 'ETH', 18, '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc', '{"amount":1,"token":"ETHER"}'),
   (2, 'DAI', 18,	'0x6b175474e89094c44da98b954eedeac495271d0f', 'USDC', 6, '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', '0xAaF5110db6e744ff70fB339DE037B990A20bdace', '{"amount":1,"token":"ETHER"}'),
   (1, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'USDT', 6, '0xdac17f958d2ee523a2206206994597c13d831ec7', '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852', '{"amount":1,"token":"ETHER"}'),
   (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'USDT', 6, '0xdac17f958d2ee523a2206206994597c13d831ec7', '0x06da0fd433C1A5d7a4faa01111c044910A184553', '{"amount":1,"token":"ETHER"}'),
-  (1, 'WETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'WBTC', 8, '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', '0xbb2b8038a1640196fbe3e38816f3e67cba72d940', '{"amount":1,"token":"ETHER"}'),
-  (2, 'WETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'WBTC', 8, '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', '0xCEfF51756c56CeFFCA006cD410B03FFC46dd3a58', '{"amount":1,"token":"ETHER"}');
+  (1, 'WBTC', 8,	'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', 'ETH', 18, '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', '0xbb2b8038a1640196fbe3e38816f3e67cba72d940', '{"amount":1,"token":"ETHER"}'),
+  (2, 'WBTC', 8,	'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', 'ETH', 18, '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', '0xbb2b8038a1640196fbe3e38816f3e67cba72d940', '{"amount":1,"token":"ETHER"}');
 
 
 CREATE TABLE public.rates(
