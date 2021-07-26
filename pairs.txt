@@ -12,7 +12,7 @@
 
   // 2.ETH-USDT Uniswap  Pair
 {
-    inputTokenSymbol: 'ETH',
+    inputTokenSymbol: 'WETH',
     inputTokenDecimals: 18 ,
     inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
     outputTokenSymbol: 'USDT',
@@ -25,7 +25,7 @@
 
   // 3.UNI-ETH Uniswap Pair
   {
-    inputTokenSymbol: 'ETH',
+    inputTokenSymbol: 'WETH',
     inputTokenDecimals: 18 ,
     inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
     outputTokenSymbol: 'UNI',
@@ -36,12 +36,12 @@
   }
 
 
-  // 4.AAVE-ETH Uniswap Pair
+  // 4.AVVE-ETH Uniswap Pair
  {
-    inputTokenSymbol: 'ETH',
+    inputTokenSymbol: 'WETH',
     inputTokenDecimals: 18 ,
     inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    outputTokenSymbol: 'AAVE',
+    outputTokenSymbol: 'AVVE',
     outputTokenDecimals: 18,
     outputTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
     pairAddress: '0xdfc14d2af169b0d36c4eff567ada9b2e0cae044f',
@@ -54,7 +54,7 @@
   inputTokenSymbol: 'WBTC',
   inputTokenDecimals: 8 ,
   inputTokenAddress: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-  outputTokenSymbol: 'ETH',
+  outputTokenSymbol: 'WETH',
   outputTokenDecimals: 18,
   outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   pairAddress: '0xbb2b8038a1640196fbe3e38816f3e67cba72d940',
@@ -63,7 +63,7 @@
 
 // 6.MATIC-ETH Uniswap Pair
 {
-  inputTokenSymbol: 'ETH',
+  inputTokenSymbol: 'WETH',
   inputTokenDecimals: 18 ,
   inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   outputTokenSymbol: 'MATIC',
@@ -76,7 +76,7 @@
 
 // 7.LINK/WETH  Uniswap  Pair
 {
-  inputTokenSymbol: 'ETH',
+  inputTokenSymbol: 'WETH',
   inputTokenDecimals: 18 ,
   inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   outputTokenSymbol: 'LINK',
@@ -88,9 +88,22 @@
 
 }
 
+// 8.WDOGE-ETH Uniswap  Pair
+{
+  inputTokenSymbol: 'WETH',
+  inputTokenDecimals: 18 ,
+  inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  outputTokenSymbol: 'WDOGE',
+  outputTokenDecimals: 18,
+  outputTokenAddress: '0x35a532d376ffd9a705d0bb319532837337a398e7',
+  pairAddress: '0xc3d7aa944105d3fafe07fc1822102449c916a8d0',
+  inputAmount: 1000000000000000000,
+
+}
+
 // 9.MKR-ETH  Uniswap  Pair
 {
-  inputTokenSymbol: 'ETH',
+  inputTokenSymbol: 'WETH',
   inputTokenDecimals: 18 ,
   inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   outputTokenSymbol: 'MKR',
@@ -114,15 +127,28 @@ inputAmount: 1000000000000000000,
 
 }
 
- // 11.DAI/ETH  Uniswap  Pair
+ // 11.DAI/WETH  Uniswap  Pair
  {
   inputTokenSymbol: 'DAI',
   inputTokenDecimals: 18 ,
   inputTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-  outputTokenSymbol: 'ETH',
+  outputTokenSymbol: 'WETH',
   outputTokenDecimals: 18,
   outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   pairAddress: '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11',
+  inputAmount: 1000000000000000000,
+
+}
+
+ // 12.SHIB-WETH Uniswap   Pair
+ {
+  inputTokenSymbol: 'SHIB',
+  inputTokenDecimals: 18 ,
+  inputTokenAddress: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce',
+  outputTokenSymbol: 'WETH',
+  outputTokenDecimals: 18,
+  outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  pairAddress: '0x811beed0119b4afce20d2583eb608c6f7af1954f',
   inputAmount: 1000000000000000000,
 
 }
@@ -132,7 +158,7 @@ inputAmount: 1000000000000000000,
   inputTokenSymbol: 'DPI',
   inputTokenDecimals: 18 ,
   inputTokenAddress: '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b',
-  outputTokenSymbol: 'ETH',
+  outputTokenSymbol: 'WETH',
   outputTokenDecimals: 18,
   outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   pairAddress: '0x4d5ef58aac27d99935e5b6b4a6778ff292059991',
@@ -141,9 +167,36 @@ inputAmount: 1000000000000000000,
 }
 
 
+// 14.ETH-HEZ  Uniswap Pair
+{
+inputTokenSymbol: 'WETH',
+inputTokenDecimals: 18 ,
+inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+outputTokenSymbol: 'HEZ',
+outputTokenDecimals: 18,
+outputTokenAddress: '0xeef9f339514298c6a857efcfc1a762af84438dee',
+pairAddress: '0x23d15edceb5b5b3a23347fa425846de80a2e8e5c',
+inputAmount: 1000000000000000000,
+
+}
+
+// 15.LON-ETH  Uniswap Pair
+{
+inputTokenSymbol: 'LON',
+inputTokenDecimals: 18 ,
+inputTokenAddress: '0x0000000000095413afc295d19edeb1ad7b71c952',
+outputTokenSymbol: 'WETH',
+outputTokenDecimals: 18,
+outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+pairAddress: '0x7924a818013f39cf800f5589ff1f1f0def54f31f',
+inputAmount: 1000000000000000000,
+
+}
+
+
 // 1. ETH-USDC SushiSwap Pair
 {
-inputTokenSymbol: 'ETH',
+inputTokenSymbol: 'WETH',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 outputTokenSymbol: 'USDC',
@@ -155,7 +208,7 @@ inputAmount: 1000000000000000000,
 
 // 2.ETH-USDT SushiSwap Pair
 {
-    inputTokenSymbol: 'ETH',
+    inputTokenSymbol: 'WETH',
     inputTokenDecimals: 18 ,
     inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
     outputTokenSymbol: 'USDT',
@@ -168,7 +221,7 @@ inputAmount: 1000000000000000000,
 
 // 3.UNI-ETH SushiSwap  Pair
 {
-inputTokenSymbol: 'ETH',
+inputTokenSymbol: 'WETH',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 outputTokenSymbol: 'UNI',
@@ -178,12 +231,12 @@ pairAddress: '0xDafd66636E2561b0284EDdE37e42d192F2844D40',
 inputAmount: 1000000000000000000,
 }
 
-// 4.AAVE-ETH SushiSwap Pair
+// 4.AVVE-ETH SushiSwap Pair
 {
-inputTokenSymbol: 'ETH',
+inputTokenSymbol: 'WETH',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-outputTokenSymbol: 'AAVE',
+outputTokenSymbol: 'AVVE',
 outputTokenDecimals: 18,
 outputTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
 pairAddress: '0xD75EA151a61d06868E31F8988D28DFE5E9df57B4',
@@ -206,7 +259,7 @@ inputAmount: 1000000000000000000,
 
 // 6.MATIC-ETH SushiSwap Pair
 {
-inputTokenSymbol: 'ETH',
+inputTokenSymbol: 'WETH',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 outputTokenSymbol: 'MATIC',
@@ -219,7 +272,7 @@ inputAmount: 1000000000000000000,
 
 // 7.LINK/ETH SushiSwap Pair
 {
-inputTokenSymbol: 'ETH',
+inputTokenSymbol: 'WETH',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 outputTokenSymbol: 'LINK',
@@ -230,9 +283,22 @@ inputAmount: 1000000000000000000,
 
 }
 
+// 8.WDOGE-ETH  SushiSwap Pair
+{
+inputTokenSymbol: 'WETH',
+inputTokenDecimals: 18 ,
+inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+outputTokenSymbol: 'DOGE',
+outputTokenDecimals: 18,
+outputTokenAddress: '0x35a532d376ffd9a705d0bb319532837337a398e7',
+pairAddress: '0x60Bce13608701789Ab9c8Faa9B82dE115Ea8744d',
+inputAmount: 1000000000000000000,
+
+}
+
 // 9.MKR-ETH  SushiSwap  Pair
 {
-inputTokenSymbol: 'ETH',
+inputTokenSymbol: 'WETH',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 outputTokenSymbol: 'MKR',
@@ -261,10 +327,23 @@ inputAmount: 1000000000000000000,
 inputTokenSymbol: 'DAI',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-outputTokenSymbol: 'ETH',
+outputTokenSymbol: 'WETH',
 outputTokenDecimals: 18,
 outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 pairAddress: '0xC3D03e4F041Fd4cD388c549Ee2A29a9E5075882f',
+inputAmount: 1000000000000000000,
+
+}
+
+// 12.SHIB-ETH SushiSwap   Pair
+{
+inputTokenSymbol: 'SHIB',
+inputTokenDecimals: 18 ,
+inputTokenAddress: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce',
+outputTokenSymbol: 'WETH',
+outputTokenDecimals: 18,
+outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+pairAddress: '0x24D3dD4a62e29770cf98810b09F89D3A90279E7a',
 inputAmount: 1000000000000000000,
 
 }
@@ -274,10 +353,36 @@ inputAmount: 1000000000000000000,
 inputTokenSymbol: 'DPI',
 inputTokenDecimals: 18 ,
 inputTokenAddress: '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b',
-outputTokenSymbol: 'ETH',
+outputTokenSymbol: 'WETH',
 outputTokenDecimals: 18,
 outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 pairAddress: '0x34b13F8CD184F55d0Bd4Dd1fe6C07D46f245c7eD',
+inputAmount: 1000000000000000000,
+
+}
+
+// 14.ETH-HEZ SushiSwap  Pair
+{
+inputTokenSymbol: 'ETH',
+inputTokenDecimals: 18 ,
+inputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+outputTokenSymbol: 'WHEZ',
+outputTokenDecimals: 18,
+outputTokenAddress: '0xeef9f339514298c6a857efcfc1a762af84438dee',
+pairAddress: '0xD7c2A4aa31E1bF08dc7Ff44C9980fa8573E10C1B',
+inputAmount: 1000000000000000000,
+
+}
+
+// 15.LON-ETH SushiSwap  Pair
+{
+inputTokenSymbol: 'LON',
+inputTokenDecimals: 18 ,
+inputTokenAddress: '0x0000000000095413afc295d19edeb1ad7b71c952',
+outputTokenSymbol: 'WETH',
+outputTokenDecimals: 18,
+outputTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+pairAddress: '0x0EEB656C196E3022f6052BB2858b884817090dfE',
 inputAmount: 1000000000000000000,
 
 }

@@ -39,7 +39,7 @@ async function checkPair(args, exchange, datetime) {
   let pairContract
   let pairReserves
 
-  // Exhange init
+  // Exchange init
   web3 = new Web3(process.env.RPC_URL)
   dexRouterContract = new web3.eth.Contract(JSON.parse(dexRouterABI), dexRouterAddress)
   pairContract = new web3.eth.Contract(JSON.parse(pairABI), pairAddress)
@@ -59,38 +59,38 @@ async function checkPair(args, exchange, datetime) {
     pairReserves0 = pairReserves._reserve0;
     pairReserves1 = pairReserves._reserve1;
   }
-  else if (inputTokenSymbol == 'USDC' || inputTokenSymbol == 'USDT'){
-     // input USDC & USDT Have 6 Decimals
-     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
-     pairReserves1 = pairReserves._reserve1;
-  }
-  else if (outputTokenSymbol == 'USDC' || outputTokenSymbol == 'USDT'){
-     // output USDC and USDT Have 6 Decimals
-     pairReserves0 = pairReserves._reserve0;
-     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
-  }
   else if (inputTokenSymbol == 'USDC' && outputTokenSymbol == 'USDT' || outputTokenSymbol == 'USDC' && inputTokenSymbol == 'USDT'){
     // output USDC and USDT Have 6 Decimals
     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
   }
+  else if (outputTokenSymbol == 'USDC' || outputTokenSymbol == 'USDT'){
+    // output USDC and USDT Have 6 Decimals
+    pairReserves0 = pairReserves._reserve0;
+    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
+  }
+  else if (inputTokenSymbol == 'USDC' || inputTokenSymbol == 'USDT'){
+    // input USDC & USDT Have 6 Decimals
+    pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
+    pairReserves1 = pairReserves._reserve1;
+  }
   else if (inputTokenSymbol == 'WBTC'){
-     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 10000000000)).toString();
-     pairReserves1 = pairReserves._reserve1;
+    pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 10000000000)).toString();
+    pairReserves1 = pairReserves._reserve1;
   }
   else if (outputTokenSymbol == 'WBTC'){
-     pairReserves0 = pairReserves._reserve0;
-     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 10000000000)).toString();
+    pairReserves0 = pairReserves._reserve0;
+    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 10000000000)).toString();
   }
 
   const getPairRateO = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves1, pairReserves0).call()
   const getPairRate1 = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves0, pairReserves1).call()
 
-  let directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
-  let directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
+  let directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
+  let directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
 
   let sql = `
-    -- insert getPairRateO
+    -- insert getgPairRateO
     INSERT INTO RATES (exchange_id, pair_id, direction, rate, datetime) VALUES (${dexId}, ${pairId}, '${directionOne}', ${web3.utils.fromWei(getPairRateO, 'Ether')}, '${datetime}');
 
     -- insert getPairRate1
