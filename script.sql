@@ -40,7 +40,7 @@ VALUES
   (1, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'AAVE', 18, '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9', '0xdfc14d2af169b0d36c4eff567ada9b2e0cae044f', '{"amount":1,"token":"ETHER"}'),
   (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'AAVE', 18, '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9', '0xD75EA151a61d06868E31F8988D28DFE5E9df57B4', '{"amount":1,"token":"ETHER"}'),
   (1, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'DAI', 18, '0x6b175474e89094c44da98b954eedeac495271d0f', '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11', '{"amount":1,"token":"ETHER"}'),
-  (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'DAI', 18, '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', '0xC3D03e4F041Fd4cD388c549Ee2A29a9E5075882f', '{"amount":1,"token":"ETHER"}'),
+  (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'DAI', 18, '0x6b175474e89094c44da98b954eedeac495271d0f', '0xC3D03e4F041Fd4cD388c549Ee2A29a9E5075882f', '{"amount":1,"token":"ETHER"}'),
   (1, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'DPI', 18, '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b', '0x4d5ef58aac27d99935e5b6b4a6778ff292059991', '{"amount":1,"token":"ETHER"}'),
   (2, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'DPI', 18, '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b', '0x34b13F8CD184F55d0Bd4Dd1fe6C07D46f245c7eD', '{"amount":1,"token":"ETHER"}'),
   (1, 'ETH', 18,	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 'LINK', 18, '0x514910771af9ca656af840dff83e8264ecf986ca', '0xa2107fa5b38d9bbd2c461d6edf11b11a50f6b974', '{"amount":1,"token":"ETHER"}'),
