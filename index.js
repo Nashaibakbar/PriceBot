@@ -39,11 +39,14 @@ async function checkPair(args, exchange, datetime) {
   let pairContract
   let pairReserves
 
-  // Exchange init
+  // Exhange init
   web3 = new Web3(process.env.RPC_URL)
   dexRouterContract = new web3.eth.Contract(JSON.parse(dexRouterABI), dexRouterAddress)
   pairContract = new web3.eth.Contract(JSON.parse(pairABI), pairAddress)
   pairReserves = await pairContract.methods.getReserves().call()
+  let directionOne ;
+  let directionTwo ;
+
 
   // Binance Smart Chain RPC Chain
   if (dexName === 'pancakeSwap') {
@@ -55,39 +58,51 @@ async function checkPair(args, exchange, datetime) {
     pairReserves = await pairContract.methods.getReserves().call()
   }
 
-  if (inputTokenDecimals == 18 && outputTokenDecimals == 18){
+  if(inputTokenDecimals == 18 && outputTokenDecimals == 18){
     pairReserves0 = pairReserves._reserve0;
     pairReserves1 = pairReserves._reserve1;
-  }
-  else if (inputTokenSymbol == 'USDC' && outputTokenSymbol == 'USDT' || outputTokenSymbol == 'USDC' && inputTokenSymbol == 'USDT'){
+
+    directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
+    directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
+   }
+   else if (inputTokenSymbol == "USDC" && outputTokenSymbol == "USDT" || outputTokenSymbol == "USDC" && inputTokenSymbol == "USDT"){
     // output USDC and USDT Have 6 Decimals
     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
+    directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
+    directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
   }
-  else if (outputTokenSymbol == 'USDC' || outputTokenSymbol == 'USDT'){
+   else if (outputTokenSymbol == "USDC" || outputTokenSymbol == "USDT"){
     // output USDC and USDT Have 6 Decimals
     pairReserves0 = pairReserves._reserve0;
     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
+    directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
+    directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
   }
-  else if (inputTokenSymbol == 'USDC' || inputTokenSymbol == 'USDT'){
-    // input USDC & USDT Have 6 Decimals
-    pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
-    pairReserves1 = pairReserves._reserve1;
-  }
-  else if (inputTokenSymbol == 'WBTC'){
-    pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 10000000000)).toString();
-    pairReserves1 = pairReserves._reserve1;
-  }
-  else if (outputTokenSymbol == 'WBTC'){
-    pairReserves0 = pairReserves._reserve0;
-    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 10000000000)).toString();
-  }
+   else if (inputTokenSymbol == "USDC" || inputTokenSymbol == "USDT"){
+     // input USDC & USDT Have 6 Decimals
+     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
+     pairReserves1 = pairReserves._reserve1;
+     directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
+     directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
+   }
+   else if (inputTokenSymbol == "WBTC"){
+     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 10000000000)).toString();
+     pairReserves1 = pairReserves._reserve1;
+     directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
+     directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
+   }
+   else if (outputTokenSymbol == "WBTC"){
+     pairReserves0 = pairReserves._reserve0;
+     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 10000000000)).toString();
+     directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
+     directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
+   }
 
   const getPairRateO = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves1, pairReserves0).call()
   const getPairRate1 = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves0, pairReserves1).call()
 
-  let directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
-  let directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
+
 
   let sql = `
     -- insert getgPairRateO
@@ -187,7 +202,7 @@ async function monitorPrice() {
   // Lets keep our prices table light, lets delete any old prices older than N minutes
   const minutesAgo = moment().utc().subtract(1, 'minutes')
   sql = `DELETE FROM RATES WHERE datetime < '${minutesAgo.format()}';`
-  // db.query(sql)
+  db.query(sql)
 
   // Make sure the exchange/input_token is always in the same order
   TABLE_OUTPUT = _.orderBy(TABLE_OUTPUT, ['exchange'], ['inputToken'])
@@ -205,7 +220,7 @@ async function monitorPrice() {
 }
 
 // Check markets every n seconds
-const POLLING_INTERVAL = process.env.POLLING_INTERVAL || 60000 // 15 Seconds
+const POLLING_INTERVAL = process.env.POLLING_INTERVAL || 15000 // 15 Seconds
 priceMonitor = setInterval(async () => {
   await monitorPrice()
 }, POLLING_INTERVAL)
