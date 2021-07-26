@@ -58,16 +58,16 @@ async function checkPair(args, exchange, datetime) {
   if(inputTokenDecimals == 18 && outputTokenDecimals == 18){
     pairReserves0 = pairReserves._reserve0;
     pairReserves1 = pairReserves._reserve1;
-   } 
+   }
+   else if (outputTokenSymbol == "USDC" || outputTokenSymbol == "USDT"){
+    // output USDC and USDT Have 6 Decimals
+    pairReserves0 = pairReserves._reserve0;
+    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
+  } 
    else if (inputTokenSymbol == "USDC" || inputTokenSymbol == "USDT"){
      // input USDC & USDT Have 6 Decimals
      pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
      pairReserves1 = pairReserves._reserve1;
-   }
-   else if (outputTokenSymbol == "USDC" || outputTokenSymbol == "USDT"){
-     // output USDC and USDT Have 6 Decimals
-     pairReserves0 = pairReserves._reserve0;
-     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
    }
    else if (inputTokenSymbol == "USDC" && outputTokenSymbol == "USDT" || outputTokenSymbol == "USDC" && inputTokenSymbol == "USDT"){
     // output USDC and USDT Have 6 Decimals
