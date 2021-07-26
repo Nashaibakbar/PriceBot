@@ -59,6 +59,11 @@ async function checkPair(args, exchange, datetime) {
     pairReserves0 = pairReserves._reserve0;
     pairReserves1 = pairReserves._reserve1;
    }
+   else if (inputTokenSymbol == "USDC" && outputTokenSymbol == "USDT" || outputTokenSymbol == "USDC" && inputTokenSymbol == "USDT"){
+    // output USDC and USDT Have 6 Decimals
+    pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
+    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
+  }
    else if (outputTokenSymbol == "USDC" || outputTokenSymbol == "USDT"){
     // output USDC and USDT Have 6 Decimals
     pairReserves0 = pairReserves._reserve0;
@@ -69,11 +74,6 @@ async function checkPair(args, exchange, datetime) {
      pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
      pairReserves1 = pairReserves._reserve1;
    }
-   else if (inputTokenSymbol == "USDC" && outputTokenSymbol == "USDT" || outputTokenSymbol == "USDC" && inputTokenSymbol == "USDT"){
-    // output USDC and USDT Have 6 Decimals
-    pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
-    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
-  }
    else if (inputTokenSymbol == "WBTC"){
      pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 10000000000)).toString();
      pairReserves1 = pairReserves._reserve1;
