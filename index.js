@@ -4,10 +4,7 @@ const Web3 = require('web3')
 const moment = require('moment')
 const _ = require('lodash')
 
-const {
-  pairABI,
-  dexRouterABI
-} = require('./utils')
+const { pairABI, dexRouterABI } = require('./utils')
 
 // WEB3 CONFIG
 let web3 = new Web3(process.env.RPC_URL)
@@ -25,27 +22,27 @@ async function checkPair(args, exchange, datetime) {
     outputTokenDecimals,
     outputTokenAddress,
     pairAddress,
-    inputAmount
+    inputAmount,
   } = args
-  const {
-    dexId,
-    dexName,
-    dexRouterAddress
-  } = exchange
+  const { dexId, dexName, dexRouterAddress } = exchange
 
   let pairReserves0
   let pairReserves1
   let dexRouterContract
   let pairContract
   let pairReserves
+  let directionOne
+  let directionTwo
 
   // Exhange init
   web3 = new Web3(process.env.RPC_URL)
-  dexRouterContract = new web3.eth.Contract(JSON.parse(dexRouterABI), dexRouterAddress)
+  dexRouterContract = new web3.eth.Contract(
+    JSON.parse(dexRouterABI),
+    dexRouterAddress
+  )
+
   pairContract = new web3.eth.Contract(JSON.parse(pairABI), pairAddress)
   pairReserves = await pairContract.methods.getReserves().call()
-  let directionOne ;
-  let directionTwo ;
 
 
   // Binance Smart Chain RPC Chain
@@ -53,81 +50,79 @@ async function checkPair(args, exchange, datetime) {
     const NODE_URL = process.env.NODE_URL
     const provider = new Web3.providers.HttpProvider(NODE_URL)
     web3 = new Web3(provider)
-    dexRouterContract = new web3.eth.Contract(JSON.parse(dexRouterABI), dexRouterAddress)
+    dexRouterContract = new web3.eth.Contract(
+      JSON.parse(dexRouterABI),
+      dexRouterAddress
+    )
     pairContract = new web3.eth.Contract(JSON.parse(pairABI), pairAddress)
     pairReserves = await pairContract.methods.getReserves().call()
   }
 
-  if(inputTokenDecimals == 18 && outputTokenDecimals == 18){
-    pairReserves0 = pairReserves._reserve0;
-    pairReserves1 = pairReserves._reserve1;
+  if (inputTokenDecimals == 18 && outputTokenDecimals == 18) {
+    pairReserves0 = pairReserves._reserve0
+    pairReserves1 = pairReserves._reserve1
+  }
+  else if ((inputTokenSymbol == 'USDC' && outputTokenSymbol == 'USDT') || (outputTokenSymbol == 'USDC' && inputTokenSymbol == 'USDT')) {
+    // output USDC and USDT Have 6 Decimals
+    pairReserves0 = BigInt(Number(pairReserves._reserve0) * 1000000000000).toString()
+    pairReserves1 = BigInt(Number(pairReserves._reserve1) * 1000000000000).toString()
+  }
+  else if (outputTokenSymbol == 'USDC' || outputTokenSymbol == 'USDT') {
+    // output USDC and USDT Have 6 Decimals
+    pairReserves0 = pairReserves._reserve0
+    pairReserves1 = BigInt(Number(pairReserves._reserve1) * 1000000000000).toString()
+  }
+  else if (inputTokenSymbol == 'USDC' || inputTokenSymbol == 'USDT') {
+    // input USDC & USDT Have 6 Decimals
+    pairReserves0 = BigInt(Number(pairReserves._reserve0) * 1000000000000).toString()
+    pairReserves1 = pairReserves._reserve1
+  }
+  else if (inputTokenSymbol == 'WBTC') {
+    pairReserves0 = BigInt(Number(pairReserves._reserve0) * 10000000000).toString()
+    pairReserves1 = pairReserves._reserve1
+  }
+  else if (outputTokenSymbol == 'WBTC') {
+    pairReserves0 = pairReserves._reserve0
+    pairReserves1 = BigInt(Number(pairReserves._reserve1) * 10000000000).toString()
+  }
 
-    directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
-    directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
-   }
-   else if (inputTokenSymbol == "USDC" && outputTokenSymbol == "USDT" || outputTokenSymbol == "USDC" && inputTokenSymbol == "USDT"){
-    // output USDC and USDT Have 6 Decimals
-    pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
-    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
+  if ((inputTokenSymbol == 'WETH' && outputTokenSymbol != 'USDT') || (inputTokenSymbol == 'ETH' && outputTokenSymbol != 'USDT')) {
+    directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
+    directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
+  } else {
     directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
     directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
   }
-   else if (outputTokenSymbol == "USDC" || outputTokenSymbol == "USDT"){
-    // output USDC and USDT Have 6 Decimals
-    pairReserves0 = pairReserves._reserve0;
-    pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 1000000000000)).toString();
-    directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
-    directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
-  }
-   else if (inputTokenSymbol == "USDC" || inputTokenSymbol == "USDT"){
-     // input USDC & USDT Have 6 Decimals
-     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 1000000000000)).toString();
-     pairReserves1 = pairReserves._reserve1;
-     directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
-     directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
-   }
-   else if (inputTokenSymbol == "WBTC"){
-     pairReserves0 = (BigInt(Number(pairReserves._reserve0 )* 10000000000)).toString();
-     pairReserves1 = pairReserves._reserve1;
-     directionTwo = `${outputTokenSymbol}/${inputTokenSymbol}`
-     directionOne = `${inputTokenSymbol}/${outputTokenSymbol}`
-   }
-   else if (outputTokenSymbol == "WBTC"){
-     pairReserves0 = pairReserves._reserve0;
-     pairReserves1 = (BigInt(Number(pairReserves._reserve1 )* 10000000000)).toString();
-     directionOne = `${outputTokenSymbol}/${inputTokenSymbol}`
-     directionTwo = `${inputTokenSymbol}/${outputTokenSymbol}`
-   }
 
   const getPairRateO = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves1, pairReserves0).call()
   const getPairRate1 = await dexRouterContract.methods.getAmountOut(inputAmount, pairReserves0, pairReserves1).call()
 
-
-
   let sql = `
     -- insert getgPairRateO
-    INSERT INTO RATES (exchange_id, pair_id, direction, rate, datetime) VALUES (${dexId}, ${pairId}, '${directionOne}', ${web3.utils.fromWei(getPairRateO, 'Ether')}, '${datetime}');
+    INSERT INTO RATES (exchange_id, pair_id, direction, rate, datetime) VALUES (${dexId}, ${pairId}, '${directionOne}',
+    ${web3.utils.fromWei(getPairRateO,'Ether')}, '${datetime}');
 
     -- insert getPairRate1
-    INSERT INTO RATES (exchange_id, pair_id, direction, rate, datetime) VALUES (${dexId}, ${pairId}, '${directionTwo}', ${web3.utils.fromWei(getPairRate1, 'Ether')}, '${datetime}');
+    INSERT INTO RATES (exchange_id, pair_id, direction, rate, datetime) VALUES (${dexId}, ${pairId}, '${directionTwo}',
+    ${web3.utils.fromWei(getPairRate1,'Ether')}, '${datetime}');
   `
   db.query(sql)
 
   // Output our data to the TABLE_OUTPUT
   TABLE_OUTPUT.push(
     {
-      'exchange': dexName,
-      'direction': directionOne,
-      'inputAmount': web3.utils.fromWei(inputAmount, 'Ether'),
-      'rate': web3.utils.fromWei(getPairRate1, 'Ether'),
-      'datetime': datetime,
+      exchange: dexName,
+      direction: directionOne,
+      inputAmount: web3.utils.fromWei(inputAmount, 'Ether'),
+      rate: web3.utils.fromWei(getPairRate1, 'Ether'),
+      datetime: datetime,
     },
     {
-      'exchange': dexName,
-      'direction': directionTwo,
-      'inputAmount': web3.utils.fromWei(inputAmount, 'Ether'),
-      'rate': web3.utils.fromWei(getPairRateO, 'Ether'),
-      'datetime': datetime,
+      exchange: dexName,
+      direction: directionTwo,
+      inputAmount: web3.utils.fromWei(inputAmount, 'Ether'),
+      rate: web3.utils.fromWei(getPairRateO, 'Ether'),
+      datetime: datetime,
     }
   )
 }
@@ -157,7 +152,7 @@ async function monitorPrice() {
       input_amount
     FROM
       pairs p
-    INNER JOIN exchanges e on p.exchange_id = e.id where e.is_active = true;
+    INNER JOIN exchanges e on p.exchange_id = e.id where e.is_active = true
   `
 
   const pairsExchange = await db.query(sql)
@@ -167,10 +162,7 @@ async function monitorPrice() {
   try {
     // Iterate over our pairs and fetch
     pairsExchange?.map((data) => {
-      const {
-        amount,
-        token
-      } = data.input_amount
+      const { amount, token } = data.input_amount
 
       checkPair(
         {
@@ -201,7 +193,7 @@ async function monitorPrice() {
 
   // Lets keep our prices table light, lets delete any old prices older than N minutes
   const minutesAgo = moment().utc().subtract(1, 'minutes')
-  sql = `DELETE FROM RATES WHERE datetime < '${minutesAgo.format()}';`
+  sql = `DELETE FROM RATES WHERE datetime < '${minutesAgo.format()}'`
   db.query(sql)
 
   // Make sure the exchange/input_token is always in the same order
